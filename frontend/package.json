@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
     "axios": "^1.7.2",
+    "emailjs-com": "^3.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",

@@ -19,7 +19,7 @@ const SMS = () => {
     };
     return (
         <div className='container sm:w-[44vw] w-[23rem] md:w-[55vw] mx-auto h-full p-5 mt-5' style={{ boxShadow: '0 0 5px 1px #ddd' }}>
-          {getUid==null?(navigate('/')):( <h1 className='text-black text-sm -tracking-tighter'>{`Welcome ${getUid}`}</h1>)} 
+          {getUid==null?(''):( <h1 className='text-black text-sm -tracking-tighter'>{`Welcome ${getUid}`}</h1>)} 
             <p className='text-3xl font-serif text-center'>SMS/SENDER</p>
             <form action="" className='px-5 my-5 flex flex-col gap-5'>
                 <div className='flex flex-col gap-2 '>

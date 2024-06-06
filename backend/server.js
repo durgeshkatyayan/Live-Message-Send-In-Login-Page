@@ -19,14 +19,11 @@ dotenv.config()
 const app = express()
 app.use(express.json())
 app.use(cors())
-app.use(bodyParser.urlencoded({ extended: true }));
-
-
+app.use(bodyParser.json());
 // routes
 app.get('/', (req, res) => {
     res.send('<h1>Hello World !</h1>')
 })
-
 app.use('/api/v1', userRouter)
 
 // Port
