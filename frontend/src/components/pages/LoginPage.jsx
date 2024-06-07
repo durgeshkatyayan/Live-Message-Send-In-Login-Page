@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import showToast from 'show-toast';
 import { useNavigate } from 'react-router-dom';
-
 const LoginPage = () => {
     const [remember, setRemember] = useState(false);
     const [values, setValues] = useState({
@@ -32,7 +31,6 @@ const LoginPage = () => {
             [name]: value
         });
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -43,7 +41,9 @@ const LoginPage = () => {
                     time: 1000,
                     position: 'top'
                 });
+                // console.log()
                 sessionStorage.setItem('uid', values.uid)
+                sessionStorage.setItem('date',response.data.result[0].created_at.split('T')[0])
                 // sessionStorage.setItem('pass', values.pass)
 
                 if (remember) {
@@ -57,7 +57,7 @@ const LoginPage = () => {
                 }
 
                 setTimeout(() => {
-                    navigate('/sms');
+                    navigate('/home');
                 }, 1000);
             } else {
                 showToast(response.data.error, 'error');

@@ -18,7 +18,9 @@ dotenv.config()
 // object
 const app = express()
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    
+}))
 app.use(bodyParser.json());
 // routes
 app.get('/', (req, res) => {

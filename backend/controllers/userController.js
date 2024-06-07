@@ -4,7 +4,7 @@ export const loginController = async (req, res) => {
         const { uid, pass } = req.body
         if (!uid && uid.trim('')) return res.status(502).send({ error: 'uid is required' })
         if (!pass && pass.trim('')) return res.status(502).send({ error: 'pass is required' })
-        const sql = "SELECT uid, pass FROM login WHERE uid = ? AND pass = ?"
+        const sql = "SELECT * FROM login WHERE uid = ? AND pass = ?"
         db.query(sql, [uid, pass], (err, result) => {
             if (err) {
                 res.status(404).send({
@@ -37,7 +37,7 @@ export const loginController = async (req, res) => {
 }
 
 // forget password controller
-export const forgetPassController = (req, res) => {
+export const forgetPassController = async (req, res) => {
     try {
         const { uid, email } = req.body
         if (!uid && uid.trim('')) return res.status(502).send({ error: 'uid is required' })
@@ -67,3 +67,37 @@ export const forgetPassController = (req, res) => {
         })
     }
 }
+
+// post api in database
+export const apiController = async (req, res) => {
+    try {
+        const { api } = req.body;
+        
+        if (!api) {
+            return res.status(400).send({ error: 'api is required',api }); // Changed status code to 400 for bad request
+        }
+
+        const sql = "INSERT INTO apitable (api) VALUES (?)"; // Corrected SQL syntax for INSERT statement
+        db.query(sql, [api], (err, result) => {
+            if (err) {
+                return res.status(500).send({
+                    success: false,
+                    message: 'Internal server error',
+                    error: err.message
+                });
+            }
+
+            res.status(200).send({
+                success: true, // Changed success to true as the operation was successful
+                message: 'API inserted successfully',
+                result
+            });
+        });
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: 'Something went wrong in the API controller',
+            error: error.message
+        });
+    }
+};

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import emailjs from 'emailjs-com'
-
+import { useNavigate } from 'react-router-dom'
 const ForgetPassword = () => {
   const [values, setValues] = useState({
     uid: '',
@@ -9,7 +9,7 @@ const ForgetPassword = () => {
   });
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-
+  const navigate = useNavigate()
   const handleChange = (e) => {
     const { value, name } = e.target;
     setValues({
@@ -32,8 +32,11 @@ const ForgetPassword = () => {
       emailjs.send('service_ua687ll', 'template_tukdy9l', emailParams, '93UIHvuVHYEWhXi1k')
         .then((result) => {
           console.log(result.text);
-          setMessage('Email sent successfully!');
-          setError('');
+          setMessage('Email sent to your registered email successfully!');
+          setTimeout(() => {
+            navigate('/')
+          }, 5000)
+          setError('')
         }, (error) => {
           console.log(error.text);
           setError('An error occurred, please try again.');
@@ -47,7 +50,7 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className='container sm:w-[34vw] w-[21rem] md:w-[45vw] mx-auto h-full p-5 mt-5' style={{ boxShadow: '0 0 5px 1px #ddd' }}>
+    <div className='container sm:w-[34vw] w-[21rem] md:w-[45vw] mx-auto  p-5 mt-5' style={{ boxShadow: '0 0 5px 1px #ddd' }}>
       <p className='text-3xl font-serif text-center'>Forget Password</p>
       <form action="" className='px-10 my-5 flex flex-col gap-5' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-2 '>

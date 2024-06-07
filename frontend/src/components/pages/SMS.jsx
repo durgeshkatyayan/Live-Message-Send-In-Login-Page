@@ -1,53 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
 const SMS = () => {
-    const [showMobileInput, setShowMobileInput] = useState(false);
-    const [showFileInput, setShowFileInput] = useState(false);
-    // const [userName,setUserName]=useState('')
-    const navigate = useNavigate()
-    const getUid = sessionStorage.getItem('uid')
-   
-    const handleRadioChange = (option) => {
-        if (option === 'mobile') {
-            setShowMobileInput(true);
-            setShowFileInput(false);
-        }
-        if (option === 'file') {
-            setShowMobileInput(false);
-            setShowFileInput(true);
+    const [ipAddress, setIpAddress] = useState('');
+    const getUid = sessionStorage.getItem('uid');
+    const getDate = sessionStorage.getItem('date');
+
+    const getIpAddress = async () => {
+        try {
+            const response = await axios.get('https://ipinfo.io/49.43.118.78/json?token=4f9139290b5a05');
+            setIpAddress(response.data.ip);
+        } catch (error) {
+            console.log('Error in accessing IP address');
         }
     };
-    return (
-        <div className='container sm:w-[44vw] w-[23rem] md:w-[55vw] mx-auto h-full p-5 mt-5' style={{ boxShadow: '0 0 5px 1px #ddd' }}>
-          {getUid==null?(''):( <h1 className='text-black text-sm -tracking-tighter'>{`Welcome ${getUid}`}</h1>)} 
-            <p className='text-3xl font-serif text-center'>SMS/SENDER</p>
-            <form action="" className='px-5 my-5 flex flex-col gap-5'>
-                <div className='flex flex-col gap-2 '>
-                    <div className='flex gap-2'>
-                        <input type="radio" name="option" id="fileOption" value="mobile" onChange={() => handleRadioChange('mobile')} />
-                        <p>Type Mobile Number</p>
-                    </div>
-                    {showMobileInput &&
-                        (<div className=''>
-                            <label htmlFor="">Mobile No : </label>
-                            <input type="text" name="" id="" pattern="\d+" className='border w-full' />
-                        </div>)
-                    }
-                </div>
 
-                <div className='flex flex-col gap-2'>
-                    <div className='flex gap-2'>
-                        <input type="radio" name="option" id="leOption" value="file" onChange={() => handleRadioChange('file')} />
-                        <p>Import CSV File</p>
-                    </div>
-                    {showFileInput &&
-                        (<div className=''>
-                            <label htmlFor="">File: </label>
-                            <input type="file" name="" id="" className='border w-full' />
-                        </div>)
-                    }
-                </div>
-            </form>
+    useEffect(() => {
+        const fetchIpAndSendApi = async () => {
+            await getIpAddress();
+            if (ipAddress) {
+                try {
+                    const fetchApi = await axios.post('/api/v1/set-api',  {api:ipAddress} );
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchIpAndSendApi();
+    }, [ipAddress]);  // Dependency added to ensure API call occurs after IP address is fetched
+
+    return (
+        <div className='w-full  p-3 px-8' style={{ boxShadow: '0 0 2px 1px #ddd' }}>
+            <div className='flex items-center justify-between'>
+                <p>IP Address: {ipAddress}</p>
+                <p>Welcome {getUid}</p>
+                <p>Date: {getDate}</p>
+            </div>
         </div>
     );
 };
