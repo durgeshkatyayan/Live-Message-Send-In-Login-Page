@@ -31,7 +31,7 @@ const SMS = () => {
 
     return (
         <div className='w-full  p-3 px-8' style={{ boxShadow: '0 0 2px 1px #ddd' }}>
-            <div className='flex items-center justify-between'>
+            <div className='flex items-center justify-between flex-wrap'>
                 <p>IP Address: {ipAddress}</p>
                 <p>Welcome {getUid}</p>
                 <p>Date: {getDate}</p>

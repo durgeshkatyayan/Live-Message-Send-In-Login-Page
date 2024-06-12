@@ -11,7 +11,7 @@ const Home = () => {
             </div>
             <Layout>
                 <div className='mt-1 w-full bg-white'>
-                    <div className='w-48 h-[80vh] py-5' style={{ boxShadow: '1px 1px 3px 1px #ddd' }}>
+                    <div className='sm:w-48 w-32 h-[80vh] py-5' style={{ boxShadow: '1px 1px 3px 1px #ddd' }}>
                         {
                             menuItem.map((item, index) => (
                                 <div className='flex items-center px-4 gap-3 py-4 cursor-pointer'>
